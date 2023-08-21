@@ -1,5 +1,7 @@
 export function formatNumberWithCustomSuffix(value) {
-    if (value < 1) {
+    if (!isFinite(value)) {
+        return "Infinity";
+    } else if (value < 1) {
         return value.toFixed(1);
     }
     const suffixes = [
