@@ -47,6 +47,10 @@ export default {
       store.dispatch("autoForgeWeapons");
     };
 
+    const levelProgress = () => {
+      store.dispatch('levelProgress');
+    };
+
     const click = () => {
       store.dispatch('click');
     };
@@ -79,6 +83,9 @@ export default {
       setInterval(() => {
         autoForgeWeapons();
       }, 100);
+      setInterval(() => {
+        levelProgress();
+      },500);
     });
 
     return {
@@ -86,6 +93,7 @@ export default {
       afkValue,
       clickValue,
       autoForgeWeapons,
+      levelProgress,
       click,
     };
   },
