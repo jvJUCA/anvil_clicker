@@ -170,6 +170,15 @@ export default {
         "OcWk",
         "NoWk",
         "Yn",
+        "UnYn",
+        "DuYn",
+        "TrYn",
+        "QaYn",
+        "QiYn",
+        "SeYn",
+        "SpYn",
+        "OcYn",
+        "NoYn",
       ];
       const powersOfTen = Math.floor(Math.log10(Math.abs(value)) / 3);
       const scaledValue = value / Math.pow(10, powersOfTen * 3);
@@ -198,7 +207,7 @@ export default {
 <style>
 @font-face {
   font-family: pixelFont;
-  src: url("@/assets/pixelated 2.ttf");
+  src: url("@/assets/Pixelated 2.ttf");
 }
 .container {
   font-family: pixelFont;

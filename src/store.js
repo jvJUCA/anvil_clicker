@@ -4,7 +4,12 @@ export default createStore({
   state: {
     clickValue: 1,
     afkValue: 0.1,
-    pointsValue: 200,
+    pointsValue: 0,
+    totalPoints: 0,
+    level: 0,
+    progress: 0,
+    pointsForLevel: 1000,
+    antPointsForLEvel: 0,
     hiddenUpgrade: false,
     unlockValue: 0,
     selectedUpgradeType: "clickUpgrades",
@@ -89,7 +94,7 @@ export default createStore({
         {
           name: "Bronze anvil",
           cost: 15000,
-          clickValue: 0.15,
+          clickValue: 10.15,
           afkValue: 0,
           level: 0,
           hiddenUpgrade: false,
@@ -118,7 +123,7 @@ export default createStore({
     upgradeTypes: [
       "clickUpgrades",
       "afkUpgrades",
-      "anotherType1",
+      "Upgrades",
       "anotherType2",
     ],
 
@@ -131,6 +136,9 @@ export default createStore({
     autoForgeWeapons({ commit, state }) {
       commit('autoForgeWeapons');
     },
+    levelProgress({ commit, state }) {
+      commit('levelProgress')
+    },
     click({ commit, state }) {
       commit('click');
     },
@@ -142,16 +150,20 @@ export default createStore({
   mutations: {
     click(state) {
       state.pointsValue += state.clickValue;
+      state.totalPoints += state.clickValue;
     },
     functionselectUpgradeType(state, { type }) {
       state.selectedUpgradeType = type;
     },
     buyUpgrade(state, { upgrade, selectedUpgradeType }) {
       if (state.pointsValue >= upgrade.cost) {
-        if (selectedUpgradeType === "Upgrades") {
+        console.log(selectedUpgradeType);
+        if (state.selectedUpgradeType === "Upgrades") {
+          console.log("caiu no if");
           state.clickValue += state.clickValue * upgrade.clickValue;
           state.afkValue += state.afkValue * upgrade.clickValue;
         } else {
+          console.log("caiu no else");
           state.clickValue += upgrade.clickValue;
           state.afkValue += upgrade.afkValue;
         }
@@ -164,6 +176,7 @@ export default createStore({
     },
     autoForgeWeapons(state) {
       state.pointsValue += state.afkValue / 10;
+      state.totalPoints += state.afkValue / 10;
     },
     updateUnlockStatus(state) {
       const upgradesOfType = state.upgrades[state.selectedUpgradeType];
@@ -174,5 +187,18 @@ export default createStore({
         }
       }
     },
+    levelProgress(state) {
+      if (((state.totalPoints - state.antPointsForLEvel) / (state.pointsForLevel - state.antPointsForLEvel)) * 100 < 0) { 
+        state.progress = 0
+      }else{
+        state.progress = ((state.totalPoints - state.antPointsForLEvel) / (state.pointsForLevel - state.antPointsForLEvel)) * 100;
+      }
+      if (state.progress >= 100) {
+        state.level++;
+        state.antPointsForLEvel = state.pointsForLevel; // Salva os pontos do nível anterior
+        state.pointsForLevel *= 3;
+        state.progress = 0;
+      }
+    }
   },
 });
