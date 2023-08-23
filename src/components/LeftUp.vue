@@ -18,9 +18,7 @@
         striped
         ><strong>{{
           mouseover
-            ? `${format(totalPoints)}
-              /
-              ${format(pointsForLevel)} XP`
+            ? `${format(totalPoints)} / ${format(pointsForLevel)} XP`
             : Math.ceil(progress) + "%"
         }}</strong></v-progress-linear
       >
@@ -54,7 +52,7 @@ export default {
     };
   },
   methods: {
-    format(value){
+    format(value) {
       return formatNumberWithCustomSuffix(value);
     },
   },
